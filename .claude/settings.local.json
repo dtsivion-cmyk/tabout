@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "mcp__Claude_in_Chrome__list_connected_browsers"
-    ]
-  }
-}
