@@ -14,3 +14,10 @@ desktop.ini
 
 # Netlify build cache (if you add a build step later)
 .netlify/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
