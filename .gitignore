@@ -1,0 +1,16 @@
+# Windows launcher files (local convenience only)
+*.bat
+*.url
+
+# OS junk
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Editor junk
+.vscode/
+.idea/
+*.swp
+
+# Netlify build cache (if you add a build step later)
+.netlify/

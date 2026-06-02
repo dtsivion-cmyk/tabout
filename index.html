@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TabOut | Frictionless Bill Splitting</title>
+    <meta
+      name="description"
+      content="TabOut scans restaurant receipts and lets friends claim items together in real time."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-screen="landing">
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="TabOut home">
+        <span class="brand-mark">T</span>
+        <span>TabOut</span>
+      </a>
+      <nav aria-label="Main navigation" class="landing-only">
+        <a href="#how">How it works</a>
+        <a href="#trust">Trust</a>
+        <a href="#architecture">Architecture</a>
+      </nav>
+      <button class="header-action landing-only" type="button" data-goto="auth">Sign in</button>
+      <button class="header-action app-only" type="button" id="signOutButton" hidden>Sign out</button>
+    </header>
+
+    <main id="top">
+      <section class="hero landing-only" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Receipt scanning. Real-time claiming. Zero table math.</p>
+          <h1 id="hero-title">TabOut</h1>
+          <p class="hero-lede">
+            The frictionless bill splitter that turns a restaurant receipt into a shared live room,
+            so everyone claims what they ordered and pays the host in seconds.
+          </p>
+          <div class="hero-actions">
+            <button class="primary-action" type="button" data-goto="auth">Get started</button>
+            <a class="secondary-action" href="#architecture">See system</a>
+          </div>
+          <div class="launch-strip" aria-label="Launch readiness">
+            <span>Prototype ready</span>
+            <span>No signup demo</span>
+            <span>Supabase-ready data model</span>
+          </div>
+          <dl class="hero-stats" aria-label="Product highlights">
+            <div>
+              <dt>15s</dt>
+              <dd>average split</dd>
+            </div>
+            <div>
+              <dt>4</dt>
+              <dd>digit room code</dd>
+            </div>
+            <div>
+              <dt>0</dt>
+              <dd>signup friction</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="hero-product" aria-label="TabOut app preview">
+          <div class="phone phone-host">
+            <div class="phone-top">
+              <span></span>
+              <span></span>
+            </div>
+            <div class="scan-frame">
+              <div class="scan-status">
+                <span></span>
+                <b>Scanning receipt</b>
+              </div>
+              <div class="receipt-photo">
+                <span class="receipt-line wide"></span>
+                <span class="receipt-line"></span>
+                <span class="receipt-line short"></span>
+                <span class="receipt-row">
+                  <b>Truffle fries</b>
+                  <em>$12</em>
+                </span>
+                <span class="receipt-row">
+                  <b>Ramen bowl</b>
+                  <em>$18</em>
+                </span>
+                <span class="receipt-row">
+                  <b>Nachos</b>
+                  <em>$14</em>
+                </span>
+                <span class="receipt-total">
+                  <b>Total</b>
+                  <em>$67.80</em>
+                </span>
+              </div>
+              <span class="corner one"></span>
+              <span class="corner two"></span>
+              <span class="corner three"></span>
+              <span class="corner four"></span>
+            </div>
+            <div class="room-card">
+              <span>Room code</span>
+              <strong>4821</strong>
+              <div class="avatar-stack" aria-label="Friends joined">
+                <i>A</i>
+                <i>M</i>
+                <i>J</i>
+              </div>
+            </div>
+          </div>
+
+          <div class="phone phone-guest">
+            <div class="phone-top">
+              <span></span>
+              <span></span>
+            </div>
+            <div class="mini-title">
+              <span>Live receipt</span>
+              <strong>$67.80</strong>
+            </div>
+            <div class="receipt-list compact">
+              <article>
+                <span>Truffle fries</span>
+                <b>$12.00</b>
+                <div class="mini-avatars">
+                  <i>A</i>
+                  <i>J</i>
+                </div>
+              </article>
+              <article>
+                <span>Ramen bowl</span>
+                <b>$18.00</b>
+                <div class="mini-avatars">
+                  <i>M</i>
+                </div>
+              </article>
+              <article>
+                <span>Nachos</span>
+                <b>$14.00</b>
+                <div class="mini-avatars">
+                  <i>A</i>
+                  <i>M</i>
+                  <i>J</i>
+                </div>
+              </article>
+            </div>
+            <button class="pay-button" type="button">Pay Maya $24.60</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="workflow landing-only" id="how" aria-labelledby="workflow-title">
+        <div class="section-heading">
+          <p class="eyebrow">Built for the end of dinner</p>
+          <h2 id="workflow-title">One host opens the table. Everyone else joins.</h2>
+        </div>
+        <div class="workflow-grid">
+          <article>
+            <span class="step-number">01</span>
+            <h3>Host opens table</h3>
+            <p>The person paying starts a room and gets a short code plus a QR invite.</p>
+          </article>
+          <article>
+            <span class="step-number">02</span>
+            <h3>Guests join</h3>
+            <p>Everyone else scans the QR code or types the room code into their own phone.</p>
+          </article>
+          <article>
+            <span class="step-number">03</span>
+            <h3>Add meals</h3>
+            <p>The host scans the receipt and sets tip. Guests claim scanned items or add what they ordered manually.</p>
+          </article>
+          <article>
+            <span class="step-number">04</span>
+            <h3>Pay the host</h3>
+            <p>Tax and tip are distributed proportionally, then payment buttons open Venmo, Apple Pay, or Cash App.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ APP SCREEN: AUTH ============ -->
+      <section class="app-screen" id="screen-auth" aria-labelledby="auth-title" hidden>
+        <div class="auth-card">
+          <p class="eyebrow">Welcome to TabOut</p>
+          <h2 id="auth-title"><span data-auth-title>Sign in</span> to split bills</h2>
+          <p class="auth-sub" data-auth-sub>Use your email to get back into your rooms.</p>
+
+          <form id="authForm" class="auth-form">
+            <label data-signup-only hidden>
+              Display name
+              <input id="authName" name="authName" type="text" placeholder="Maya" autocomplete="nickname" />
+            </label>
+            <label>
+              Email
+              <input id="authEmail" name="authEmail" type="email" placeholder="you@example.com" autocomplete="email" required />
+            </label>
+            <label>
+              Password
+              <input id="authPassword" name="authPassword" type="password" placeholder="At least 6 characters" autocomplete="current-password" required minlength="6" />
+            </label>
+            <button class="primary-action" type="submit" data-auth-submit>Sign in</button>
+          </form>
+
+          <p class="auth-toggle">
+            <span data-auth-toggle-text>New here?</span>
+            <button type="button" class="link-button" id="authToggle" data-auth-toggle-action>Create an account</button>
+          </p>
+
+          <button type="button" class="link-button subtle" data-goto="landing">Back to landing</button>
+        </div>
+      </section>
+
+      <!-- ============ APP SCREEN: LOBBY ============ -->
+      <section class="app-screen" id="screen-lobby" aria-labelledby="lobby-title" hidden>
+        <div class="section-heading narrow">
+          <p class="eyebrow">Hey <span id="lobbyGreeting">there</span></p>
+          <h2 id="lobby-title">Start a new table, or join one you were invited to.</h2>
+        </div>
+
+        <div class="lobby-grid">
+          <article class="lobby-card">
+            <h3>Create a room</h3>
+            <p>You'll be the host. You set the tip, edit the receipt, and collect from everyone.</p>
+            <form id="createRoomForm" class="lobby-form">
+              <label>
+                Room name
+                <input id="newRoomName" type="text" placeholder="Bistro Saturday" required />
+              </label>
+              <button class="primary-action" type="submit">Open the table</button>
+            </form>
+          </article>
+
+          <article class="lobby-card">
+            <h3>Join a room</h3>
+            <p>Ask the host for the 4-digit code, then drop into the live receipt.</p>
+            <form id="joinRoomForm" class="lobby-form">
+              <label>
+                Room code
+                <input id="joinRoomCode" type="text" inputmode="numeric" maxlength="4" placeholder="4821" pattern="[0-9]{4}" required />
+              </label>
+              <button class="primary-action" type="submit">Join the table</button>
+            </form>
+          </article>
+        </div>
+
+        <div class="recent-rooms" id="recentRooms" hidden>
+          <h3>Your rooms</h3>
+          <div id="recentRoomsList"></div>
+        </div>
+      </section>
+
+      <!-- ============ APP SCREEN: ROOM ============ -->
+      <section class="app-screen" id="screen-room" aria-labelledby="room-title" hidden>
+        <div class="demo-shell" id="live">
+          <aside class="demo-panel" aria-label="Room status">
+            <div>
+              <span class="label">Room</span>
+              <strong id="roomCode">0000</strong>
+            </div>
+            <button class="copy-room" id="copyRoom" type="button">Copy invite</button>
+            <div class="qr-code" aria-label="QR code preview">
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="guest-list" aria-label="Members" id="guestList"></div>
+            <div class="host-card" aria-label="Room host">
+              <div class="host-avatar" id="hostAvatar">?</div>
+              <div>
+                <span class="label">Host</span>
+                <strong id="hostName">—</strong>
+                <p>Opened the table and will receive payments.</p>
+              </div>
+            </div>
+            <div class="room-health">
+              <span id="roomStatus">0 guests synced</span>
+              <button type="button" class="link-button subtle" data-goto="lobby">Leave room</button>
+            </div>
+          </aside>
+
+          <div class="receipt-board" aria-label="Live receipt board">
+            <div class="board-head">
+              <div>
+                <span class="label" id="roomNameLabel">Tonight's table</span>
+                <h3 id="room-title">Live receipt</h3>
+              </div>
+              <span class="sync-pill">Saved locally</span>
+            </div>
+
+            <div class="mode-tabs" aria-label="Split mode">
+              <button class="mode-tab is-active" data-split="claim" type="button">Claim items</button>
+              <button class="mode-tab" data-split="even" type="button">Even split</button>
+              <button class="mode-tab" data-split="custom" type="button">Custom %</button>
+            </div>
+
+            <div class="role-card" id="roleCard" aria-live="polite"></div>
+
+            <form class="meal-form" id="mealForm">
+              <div class="form-head">
+                <div>
+                  <span class="label">Add an item</span>
+                  <h3>What did you order?</h3>
+                </div>
+                <span class="sync-pill">Adds to room</span>
+              </div>
+              <label>
+                Meal
+                <input id="mealName" name="mealName" type="text" placeholder="Chicken shawarma" />
+              </label>
+              <label>
+                Price
+                <input id="mealPrice" name="mealPrice" type="number" min="0.01" step="0.01" placeholder="16.50" />
+              </label>
+              <button class="primary-action compact-action" type="submit">Add meal</button>
+            </form>
+
+            <div class="receipt-list" id="receiptItems"></div>
+
+            <div class="custom-split" id="customSplit" hidden>
+              <span class="label">Custom share per person (must sum to 100%)</span>
+              <div id="customSplitRows"></div>
+              <span class="custom-split-total" id="customSplitTotal">100%</span>
+            </div>
+
+            <div class="tip-control">
+              <label for="tipRange">Tip <strong id="tipLabel">20%</strong></label>
+              <input id="tipRange" type="range" min="0" max="30" value="20" />
+            </div>
+
+            <div class="bill-breakdown" aria-label="Bill breakdown">
+              <div><span>Subtotal</span><strong id="subtotalValue">$0.00</strong></div>
+              <div><span>Tax</span><strong id="taxValue">$0.00</strong></div>
+              <div><span>Tip</span><strong id="tipValue">$0.00</strong></div>
+              <div><span>Total</span><strong id="totalValue">$0.00</strong></div>
+            </div>
+
+            <div class="shares-breakdown" id="sharesBreakdown" aria-label="Per-person shares"></div>
+
+            <div class="summary">
+              <div>
+                <span id="summaryLabel">Your share</span>
+                <strong id="yourShare">$0.00</strong>
+              </div>
+              <button class="primary-action compact-action" id="payButton" type="button">Pay host</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust landing-only" id="trust" aria-labelledby="trust-title">
+        <div class="section-heading">
+          <p class="eyebrow">Ready for real users</p>
+          <h2 id="trust-title">Designed around the messy parts of restaurant nights.</h2>
+        </div>
+        <div class="trust-grid">
+          <article>
+            <h3>Bad signal friendly</h3>
+            <p>Receipt data can stay on the host device and sync when the table gets connection again.</p>
+          </article>
+          <article>
+            <h3>No card storage</h3>
+            <p>Payments can deep-link into trusted apps, keeping sensitive financial data out of the product.</p>
+          </article>
+          <article>
+            <h3>Exact totals</h3>
+            <p>Every claim, tax share, and tip share rolls up to the host's charged amount.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="architecture landing-only" id="architecture" aria-labelledby="architecture-title">
+        <div class="section-heading">
+          <p class="eyebrow">CTO view</p>
+          <h2 id="architecture-title">A real-time state engine behind a very calm interface.</h2>
+        </div>
+        <div class="system-map" aria-label="Technical architecture">
+          <article>
+            <span>01</span>
+            <h3>Mobile client</h3>
+            <p>React Native or Flutter client with camera capture, optimistic item claiming, and payment deep links.</p>
+          </article>
+          <div class="connector"></div>
+          <article>
+            <span>02</span>
+            <h3>API and sync</h3>
+            <p>REST for setup, WebSockets for claims, Redis for room state, PostgreSQL for durable receipts.</p>
+          </article>
+          <div class="connector"></div>
+          <article>
+            <span>03</span>
+            <h3>OCR parser</h3>
+            <p>Image preprocessing extracts text, then a receipt parser structures items, tax, subtotal, and total.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="landing-only">
+      <span>TabOut</span>
+      <p>Designed for the awkward moment when the check lands.</p>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
