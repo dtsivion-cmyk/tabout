@@ -234,15 +234,28 @@ $("#joinRoomForm").addEventListener("submit", async (e) => {
   const code = $("#joinRoomCode").value.trim();
   if (!/^\d{4}$/.test(code)) { showToast("Room code is 4 digits"); return; }
 
+  // Force a fresh auth check — avoids RLS failures from a stale session.
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) { showToast("Please sign in again"); goto("auth"); return; }
+
   const { data: room } = await sb.from("rooms").select("code").eq("code", code).maybeSingle();
   if (!room) { showToast("No room with that code"); return; }
 
-  const { error } = await sb.from("room_members").upsert({
-    room_code: code,
-    user_id: state.user.id,
-    custom_share: 0,
-  }, { onConflict: "room_code,user_id", ignoreDuplicates: true });
-  if (error) { showToast(error.message); return; }
+  // Check if already a member; if so just open the room.
+  const { data: existing } = await sb.from("room_members")
+    .select("user_id")
+    .eq("room_code", code)
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (!existing) {
+    const { error } = await sb.from("room_members").insert({
+      room_code: code,
+      user_id: user.id,
+      custom_share: 0,
+    });
+    if (error) { showToast(error.message); return; }
+  }
 
   state.roomCode = code;
   $("#joinRoomCode").value = "";
